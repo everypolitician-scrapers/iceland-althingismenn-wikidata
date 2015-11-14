@@ -15,3 +15,7 @@ require 'wikidata/fetcher'
   # puts "%s %s" % [data[:id], data[:name]]
   ScraperWiki.save_sqlite([:id], data)
 end
+
+require 'rest-client'
+warn RestClient.post ENV['MORPH_REBUILDER_URL'], {} if ENV['MORPH_REBUILDER_URL']
+
