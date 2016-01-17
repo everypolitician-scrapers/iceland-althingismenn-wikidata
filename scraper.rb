@@ -8,6 +8,6 @@ require 'wikidata/fetcher'
 # former = WikiData::Category.new( 'Flokkur:Fyrrum Alþingismenn', 'is').member_titles
 
 names = EveryPolitician::Wikidata.morph_wikinames(source: 'tmtmtmtm/iceland-althing-wikipedia', column: 'wikiname')
-EveryPolitician::Wikidata.scrape_wikidata(names: { is: names }, output: true)
+EveryPolitician::Wikidata.scrape_wikidata(names: { is: names }, output: false)
 warn EveryPolitician::Wikidata.notify_rebuilder
 
