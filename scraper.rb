@@ -4,18 +4,10 @@
 require 'scraperwiki'
 require 'wikidata/fetcher'
 
-@pages = [
-  'Flokkur:Alþingismenn',
-  'Flokkur:Fyrrum Alþingismenn',
-]
+# current = WikiData::Category.new( 'Flokkur:Alþingismenn', 'is').member_titles
+# former = WikiData::Category.new( 'Flokkur:Fyrrum Alþingismenn', 'is').member_titles
 
-@pages.map { |c| WikiData::Category.new(c, 'is').wikidata_ids }.flatten.uniq.each_with_index do |id, i|
-  puts i if (i % 100).zero?
-  data = WikiData::Fetcher.new(id: id).data('is') or next
-  # puts "%s %s" % [data[:id], data[:name]]
-  ScraperWiki.save_sqlite([:id], data)
-end
-
-require 'rest-client'
-warn RestClient.post ENV['MORPH_REBUILDER_URL'], {} if ENV['MORPH_REBUILDER_URL']
+names = EveryPolitician::Wikidata.morph_wikinames(source: 'tmtmtmtm/iceland-althing-wikipedia', column: 'wikiname')
+EveryPolitician::Wikidata.scrape_wikidata(names: { is: names }, output: true)
+warn EveryPolitician::Wikidata.notify_rebuilder
 
